@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.codemo.dao.WebUserDao">
+
+    <select id="get" resultType="com.github.eipai.codemo.domain.WebUser" parameterType="java.lang.String">
+        select * from webuser where id=#{userId}
+    </select>
+
+    <update id="update">
+        update webuser
+        <set>
+            <if test="webUser.name != null">name = #{webUser.name},</if>
+            <if test="webUser.age != null">age = #{webUser.age},</if>
+            <if test="webUser.remark != null">remark = #{webUser.remark}</if>
+        </set>
+        where id = #{webUser.id}
+    </update>
+
+    <update id="resetRemark">
+        update webuser
+        set remark = null
+        where id = #{webUser.id}
+    </update>
+    
+</mapper>
