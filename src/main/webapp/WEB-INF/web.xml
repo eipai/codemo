@@ -3,12 +3,52 @@
 <web-app version="3.0" metadata-complete="true" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <display-name>Archetype Created Web Application</display-name>
 
+    <filter>
+        <filter-name>character</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>character</filter-name>
+        <servlet-name>SpringContext</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <servlet-name>SpringContext</servlet-name>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/applicationContext.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <servlet>
-        <servlet-name>helloworld</servlet-name>
-        <servlet-class>com.github.eipai.codemo.webapp.HelloworldServlet</servlet-class>
+        <servlet-name>SpringContext</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>namespace</param-name>
+            <param-value>classes/spring/mvc</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>helloworld</servlet-name>
-        <url-pattern>/helloworld.htm</url-pattern>
+        <servlet-name>SpringContext</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+        <!-- *.jpeg reserved for captcha only -->
+        <url-pattern>*.jpeg</url-pattern>
+        <!-- e.g. for *.json, *.pdf... -->
+        <url-pattern>/data/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 </web-app>
