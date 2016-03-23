@@ -10,11 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import com.github.eipai.codemo.benchmark.service.BenchmarkService;
 
 @Controller
 public abstract class BaseController {
     private static final Log logger = LogFactory.getLog(BaseController.class);
+    @Autowired
+    protected BenchmarkService benchmarkService;
 
     static void nocache(HttpServletResponse response) {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.

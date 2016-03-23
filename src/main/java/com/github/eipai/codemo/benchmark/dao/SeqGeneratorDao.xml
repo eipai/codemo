@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.codemo.benchmark.dao.SeqGeneratorDao">
+
+    <resultMap id="SeqGenerator" type="com.github.eipai.codemo.benchmark.domain.SeqGenerator">
+        <id column="id" property="id" javaType="int" jdbcType="INTEGER" />
+        <result column="code" property="code" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="recurring" property="recurring" javaType="boolean" jdbcType="BIT" />
+        <result column="latest_value" property="latestValue" javaType="long" jdbcType="BIGINT" />
+        <result column="begin_value" property="beginValue" javaType="long" jdbcType="BIGINT" />
+        <result column="end_value" property="endValue" javaType="long" jdbcType="BIGINT" />
+        <result column="step" property="step" javaType="long" jdbcType="BIGINT" />
+        <result column="remark" property="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="version" property="version" javaType="int" jdbcType="INTEGER" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="get" resultMap="SeqGenerator" parameterType="long">
+        select * from bm_seq_generator where id=#{id}
+    </select>
+    <select id="getByCode" resultMap="SeqGenerator" parameterType="java.lang.String">
+        select * from bm_seq_generator where code=#{code}
+    </select>
+
+    <insert id="insert" keyProperty="entity.id" useGeneratedKeys="true">
+        insert into bm_seq_generator
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,version,insert_time,update_time
+            <if test="entity.code!=null">,code</if>
+            <if test="entity.recurring!=null">,recurring</if>
+            <if test="entity.latestValue!=null">,latest_value</if>
+            <if test="entity.beginValue!=null">,begin_value</if>
+            <if test="entity.endValue!=null">,end_value</if>
+            <if test="entity.step!=null">,step</if>
+            <if test="entity.remark!=null">,remark</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.id},0,now(),now()
+            <if test="entity.code!=null">,#{entity.code}</if>
+            <if test="entity.recurring!=null">,#{entity.recurring}</if>
+            <if test="entity.latestValue!=null">,#{entity.latestValue}</if>
+            <if test="entity.beginValue!=null">,#{entity.beginValue}</if>
+            <if test="entity.endValue!=null">,#{entity.endValue}</if>
+            <if test="entity.step!=null">,#{entity.step}</if>
+            <if test="entity.remark!=null">,#{entity.remark}</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        update bm_seq_generator
+        <set>
+            version=version+1,update_time=now()
+            <if test="entity.code!=null">,code=#{entity.code}</if>
+            <if test="entity.recurring!=null">,recurring=#{entity.recurring}</if>
+            <if test="entity.latestValue!=null">,latest_value=#{entity.latestValue}</if>
+            <if test="entity.beginValue!=null">,begin_value=#{entity.beginValue}</if>
+            <if test="entity.endValue!=null">,end_value=#{entity.endValue}</if>
+            <if test="entity.step!=null">,step=#{entity.step}</if>
+            <if test="entity.remark!=null">,remark=#{entity.remark}</if>
+        </set>
+        where version = #{entity.version}
+        and id = #{entity.id}
+    </update>
+
+</mapper>

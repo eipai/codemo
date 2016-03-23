@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.codemo.benchmark.dao.AccountDetailDao">
+
+    <resultMap id="AccountDetail" type="com.github.eipai.codemo.benchmark.domain.AccountDetail">
+        <id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+        <result column="tran_id" property="tranId" javaType="long" jdbcType="BIGINT" />
+        <result column="indx" property="indx" javaType="int" jdbcType="INTEGER" />
+        <result column="acct_id" property="acctId" javaType="long" jdbcType="BIGINT" />
+        <result column="amount" property="amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+        <result column="cd_type" property="cdType" javaType="java.lang.String" jdbcType="VARCHAR" typeHandler="com.github.eipai.codemo.benchmark.bean.CdtypeEnumHandler" />
+        <result column="balance" property="balance" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+        <result column="related_acct_id" property="relatedAcctId" javaType="long" jdbcType="BIGINT" />
+        <result column="remark" property="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="get" resultMap="AccountDetail" parameterType="long">
+        select * from bm_account_detail where id=#{id}
+    </select>
+
+
+    <insert id="insert" keyProperty="entity.id" useGeneratedKeys="true">
+        insert into bm_account_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,insert_time,update_time
+            <if test="entity.tranId!=null">,tran_id</if>
+            <if test="entity.indx!=null">,indx</if>
+            <if test="entity.acctId!=null">,acct_id</if>
+            <if test="entity.amount!=null">,amount</if>
+            <if test="entity.cdType!=null">,cd_type</if>
+            <if test="entity.balance!=null">,balance</if>
+            <if test="entity.relatedAcctId!=null">,related_acct_id</if>
+            <if test="entity.remark!=null">,remark</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{entity.id},now(),now()
+            <if test="entity.tranId!=null">,#{entity.tranId}</if>
+            <if test="entity.indx!=null">,#{entity.indx}</if>
+            <if test="entity.acctId!=null">,#{entity.acctId}</if>
+            <if test="entity.amount!=null">,#{entity.amount}</if>
+            <if test="entity.cdType!=null">,#{entity.cdType}</if>
+            <if test="entity.balance!=null">,#{entity.balance}</if>
+            <if test="entity.relatedAcctId!=null">,#{entity.relatedAcctId}</if>
+            <if test="entity.remark!=null">,#{entity.remark}</if>
+        </trim>
+    </insert>
+</mapper>

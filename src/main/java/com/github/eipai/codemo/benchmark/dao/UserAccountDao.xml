@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.codemo.benchmark.dao.UserAccountDao">
+
+    <resultMap id="UserAccount" type="com.github.eipai.codemo.benchmark.domain.UserAccount">
+        <id column="id" property="id" javaType="long" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" javaType="long" jdbcType="BIGINT" />
+        <result column="money" property="money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+        <result column="locked" property="locked" javaType="boolean" jdbcType="BIT" />
+        <result column="remark" property="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result column="version" property="version" javaType="int" jdbcType="INTEGER" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="get" resultMap="UserAccount" parameterType="long">
+        select * from bm_user_account where id=#{id}
+    </select>
+
+    <update id="update">
+        update bm_user_account
+        <set>
+            version=version+1,update_time=now()
+            <if test="entity.userId!=null">,user_id=#{entity.userId}</if>
+            <if test="entity.money!=null">,money=#{entity.money}</if>
+            <if test="entity.locked!=null">,locked=#{entity.locked}</if>
+            <if test="entity.remark!=null">,remark=#{entity.remark}</if>
+        </set>
+        where version = #{entity.version}
+        and id = #{entity.id}
+    </update>
+
+</mapper>
