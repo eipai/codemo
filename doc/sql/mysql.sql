@@ -1,8 +1,8 @@
 
-DROP TABLE IF EXISTS `seq_generator`;
-DROP TABLE IF EXISTS `user_account`;
-DROP TABLE IF EXISTS `trans_info`;
-DROP TABLE IF EXISTS `account_detail`;
+DROP TABLE IF EXISTS `bm_seq_generator`;
+DROP TABLE IF EXISTS `bm_user_account`;
+DROP TABLE IF EXISTS `bm_trans_info`;
+DROP TABLE IF EXISTS `bm_account_detail`;
 
 CREATE TABLE `bm_seq_generator` (
   `id` int(11) PRIMARY KEY NOT NULL,
