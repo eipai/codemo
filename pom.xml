@@ -3,7 +3,7 @@
 
     <groupId>com.github.eipai</groupId>
     <artifactId>eipai-codemo</artifactId>
-    <version>1.0.0</version>
+    <version>1.7.20171224-ShardingJdbc</version>
     <packaging>jar</packaging>
 
     <name>eipai-codemo</name>
