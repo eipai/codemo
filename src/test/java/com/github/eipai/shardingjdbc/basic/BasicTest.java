@@ -69,7 +69,7 @@ public class BasicTest {
 
 		// 获取数据源对象
 		DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig,
-				new ConcurrentHashMap(), new Properties());
+				new ConcurrentHashMap<String,Object>(), new Properties());
 
 		String sql = "SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.user_id=? AND o.order_id=?";
 		try (Connection conn = dataSource.getConnection();
