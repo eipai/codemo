@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.shardingjdbc.core.api.ShardingDataSourceFactory;
 import io.shardingjdbc.core.api.config.ShardingRuleConfiguration;
@@ -19,6 +21,7 @@ import io.shardingjdbc.core.api.config.TableRuleConfiguration;
 import io.shardingjdbc.core.api.config.strategy.InlineShardingStrategyConfiguration;
 
 public class BasicTest {
+	static public Logger logger = LoggerFactory.getLogger(BasicTest.class);
 
 	@Test
 	public void test() throws Exception {
@@ -66,10 +69,9 @@ public class BasicTest {
 
 		shardingRuleConfig.getTableRuleConfigs().add(orderItemTableRuleConfig);
 
-
 		// 获取数据源对象
 		DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig,
-				new ConcurrentHashMap<String,Object>(), new Properties());
+				new ConcurrentHashMap<String, Object>(), new Properties());
 
 		String sql = "SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.user_id=? AND o.order_id=?";
 		try (Connection conn = dataSource.getConnection();
@@ -78,8 +80,8 @@ public class BasicTest {
 			preparedStatement.setInt(2, 1001);
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				while (rs.next()) {
-					System.out.println(rs.getInt(1));
-					System.out.println(rs.getInt(2));
+					logger.info("" + rs.getInt(1));
+					logger.info("" + rs.getInt(2));
 				}
 			}
 		}
