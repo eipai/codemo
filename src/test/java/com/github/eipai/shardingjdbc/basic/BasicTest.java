@@ -58,6 +58,7 @@ public class BasicTest {
 		ShardingRuleConfiguration shardingRuleConfig = new ShardingRuleConfiguration();
 		shardingRuleConfig.getTableRuleConfigs().add(orderTableRuleConfig);
 
+		// 省略配置order_item表规则...
 		TableRuleConfiguration orderItemTableRuleConfig = new TableRuleConfiguration();
 		orderItemTableRuleConfig.setLogicTable("t_order_item");
 		orderItemTableRuleConfig
@@ -65,7 +66,6 @@ public class BasicTest {
 
 		shardingRuleConfig.getTableRuleConfigs().add(orderItemTableRuleConfig);
 
-		// 省略配置order_item表规则...
 
 		// 获取数据源对象
 		DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig,
