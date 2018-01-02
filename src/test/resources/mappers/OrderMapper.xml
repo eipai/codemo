@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.eipai.shardingjdbc.mybatis.repository.OrderRepository">
+    <resultMap id="Order" type="com.github.eipai.shardingjdbc.mybatis.entity.Order">
+        <result column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
 	<update id="createIfNotExistsTable">
 		CREATE TABLE IF NOT EXISTS t_order (order_id BIGINT AUTO_INCREMENT, user_id INT NOT NULL, status VARCHAR(50), PRIMARY KEY (order_id));
 	</update>
@@ -27,7 +32,7 @@
 		DELETE FROM t_order WHERE order_id = #{orderId,jdbcType=INTEGER}
 	</delete>
 
-	<select id="query" parameterType="java.util.Map" resultType="com.github.eipai.shardingjdbc.mybatis.entity.Order">
+	<select id="query" parameterType="java.util.Map" resultMap="Order">
 		select * from t_order t where 1=1
 		<if test="user_id != null and user_id !=''">and t.user_id = #{user_id}</if>
 		<if test="order_id != null and order_id !=''">and t.order_id = #{order_id}</if>

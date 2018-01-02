@@ -1,5 +1,6 @@
 package com.github.eipai.shardingjdbc.mybatis;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -12,10 +13,12 @@ import com.github.eipai.shardingjdbc.mybatis.service.DemoService;
 public class MybatisTest {
     static public Logger logger = LoggerFactory.getLogger(MybatisTest.class);
     private ApplicationContext context;
+    SqlSessionFactory sessionFactory;
 
     @Before
     public void setup() {
         context = new ClassPathXmlApplicationContext("mybatis_test.xml");
+        sessionFactory = context.getBean(SqlSessionFactory.class);
     }
 
     @Test
@@ -25,6 +28,7 @@ public class MybatisTest {
         // demoService.initTables();
         // demoService.dropTables();
         demoService.queryTest();
+
     }
 
 }
