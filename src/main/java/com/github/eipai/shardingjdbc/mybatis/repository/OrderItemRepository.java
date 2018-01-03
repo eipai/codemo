@@ -39,4 +39,6 @@ public interface OrderItemRepository {
 
     List<OrderItem> query(Map<String, Object> params);
 
+    List<OrderItem> findByOrderId(long orderId);
+
 }

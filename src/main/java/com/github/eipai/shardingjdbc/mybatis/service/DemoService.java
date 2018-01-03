@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.github.eipai.shardingjdbc.mybatis.entity.Order;
 import com.github.eipai.shardingjdbc.mybatis.entity.OrderItem;
@@ -27,13 +26,13 @@ public class DemoService {
     @Resource
     private OrderItemRepository orderItemRepository;
 
-    @Transactional
     public void queryTest() {
         Map<String, Object> params = new HashMap<>();
-        params.put("user_id", 100);
-        params.put("order_id", 201L);
+        params.put("user_id", 101);
+        params.put("order_id", 204L);
 
-        logger.info("========1========\r\n"+ orderRepository.query(params));
+        logger.info("========2========\r\n" + orderRepository.findByOrderId(params));
+        // logger.info("========1========\r\n"+ orderRepository.query(params));
     }
 
     public void initTables() {

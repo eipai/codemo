@@ -27,6 +27,7 @@ public class MybatisTest {
         DemoService demoService = context.getBean(DemoService.class);
         // demoService.initTables();
         // demoService.dropTables();
+        
         demoService.queryTest();
 
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.eipai.shardingjdbc.mybatis.repository.OrderItemRepository">
-	<resultMap id="baseResultMap" type="com.github.eipai.shardingjdbc.mybatis.entity.OrderItem">
+	<resultMap id="OrderItemMap" type="com.github.eipai.shardingjdbc.mybatis.entity.OrderItem">
 		<result column="order_item_id" property="orderItemId" jdbcType="INTEGER" />
 		<result column="order_id" property="orderId" jdbcType="INTEGER" />
 		<result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -37,17 +37,21 @@
 
 	<select id="query" parameterType="java.util.Map" resultType="com.github.eipai.shardingjdbc.mybatis.entity.OrderItem">
 		select * from t_order_item t where 1=1
-		<if test="user_id != null and user_id !=''">and t.user_id = #{user_id}</if> 
-		<if test="order_id != null and order_id !=''">and t.order_id = #{order_id}</if> 
-		<if test="order_item_id != null and order_item_id !=''">and t.order_item_id = #{order_item_id}</if> 
+		<if test="user_id != null and user_id !=''">and t.user_id = #{user_id}</if>
+		<if test="order_id != null and order_id !=''">and t.order_id = #{order_id}</if>
+		<if test="order_item_id != null and order_item_id !=''">and t.order_item_id = #{order_item_id}</if>
 	</select>
 
-	<select id="selectAll" resultMap="baseResultMap">
+	<select id="selectAll" resultMap="OrderItemMap">
 		SELECT
 		i.*
 		FROM
 		t_order o, t_order_item i
 		WHERE
 		o.order_id = i.order_id
+	</select>
+
+	<select id="findByOrderId" parameterType="long" resultMap="OrderItemMap">
+		select * from t_order_item where order_id = #{order_id}
 	</select>
 </mapper>

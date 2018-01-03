@@ -35,4 +35,6 @@ public interface OrderRepository {
     void dropTable();
 
     List<Order> query(Map<String, Object> params);
+
+    List<Order> findByOrderId(Map<String, Object> params);
 }
