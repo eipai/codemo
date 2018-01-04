@@ -28,8 +28,8 @@ public class DemoService {
 
     public void queryTest() {
         Map<String, Object> params = new HashMap<>();
-        params.put("user_id", 101);
-        params.put("order_id", 204L);
+        params.put("user_id", 100);
+        params.put("order_id", 201L);
 
         logger.info("========2========\r\n" + orderRepository.findByOrderId(params));
         // logger.info("========1========\r\n"+ orderRepository.query(params));
