@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sharding="http://shardingjdbc.io/schema/shardingjdbc/sharding"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd 
+                        http://www.springframework.org/schema/tx 
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context.xsd
+                        http://shardingjdbc.io/schema/shardingjdbc/sharding 
+                        http://shardingjdbc.io/schema/shardingjdbc/sharding/sharding.xsd">
+	<context:component-scan base-package="com.github.eipai.shardingjdbc.sales" />
+
+	<bean id="sales_01" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/sales_01" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="sales_02" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/sales_02" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	<sharding:complex-strategy id="databaseShardingStrategy" sharding-columns="request_no,bank_seq" algorithm-class="com.github.eipai.shardingjdbc.sales.algorithm.SalesDatabaseShardingAlgorithm" />
+	<sharding:complex-strategy id="tableShardingStrategy" sharding-columns="request_no,bank_seq" algorithm-class="com.github.eipai.shardingjdbc.sales.algorithm.SalesTableShardingAlgorithm" />
+
+	<sharding:data-source id="shardingDataSource">
+		<sharding:sharding-rule data-source-names="sales_01,sales_02">
+			<sharding:table-rules>
+				<sharding:table-rule logic-table="pay_order" actual-data-nodes="sales_01.pay_order_${[01,02,03]},sales_02.pay_order_${[04,05,06]}" database-strategy-ref="databaseShardingStrategy" table-strategy-ref="tableShardingStrategy"
+					generate-key-column="request_no" />
+			</sharding:table-rules>
+		</sharding:sharding-rule>
+	</sharding:data-source>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="shardingDataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="shardingDataSource" />
+		<property name="mapperLocations" value="classpath*:sales-mappers/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.github.eipai.shardingjdbc.sales" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+</beans>

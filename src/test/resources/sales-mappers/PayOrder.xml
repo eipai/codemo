@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.shardingjdbc.sales.dao.PayOrderDao">
+	<resultMap id="PayOrder" type="com.github.eipai.shardingjdbc.sales.po.PayOrder">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="request_no" property="requestNo" jdbcType="VARCHAR" />
+		<result column="bank_seq" property="bankSeq" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="query" parameterType="java.util.Map" resultMap="PayOrder">
+		select * from pay_order t where 1=1
+		<if test="request_no != null and request_no !=''">and t.request_no = #{request_no}</if>
+		<if test="bank_seq != null and bank_seq !=''">and t.bank_seq = #{bank_seq}</if>
+	</select>
+
+</mapper>
