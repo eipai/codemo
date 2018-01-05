@@ -16,8 +16,8 @@ public class SalesService {
 
     public void queryTest() {
         Map<String, Object> params = new HashMap<>();
-        params.put("request_no", "R001");
-        params.put("bank_seq", "B001");
+        params.put("request_no", "R00000001");
+        params.put("bank_seq", "B010000");
 
         System.out.println("-------------");
         System.out.println(payOrderDao.query(params));
