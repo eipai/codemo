@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.eipai.mybatis.simple.OrderDao">
+
+    <resultMap id="OrderEntity" type="com.github.eipai.mybatis.simple.OrderEntity">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="time_long" property="timeLong" jdbcType="INTEGER" />
+        <result column="time_date" property="timeDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO simple_order (remark, time_long, time_date)
+        VALUES
+        (#{remark,jdbcType=VARCHAR},#{timeLong,jdbcType=INTEGER},#{timeDate,jdbcType=TIMESTAMP})
+    </insert>
+
+</mapper>
