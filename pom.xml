@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.eipai</groupId>
-    <artifactId>eipai-codemo</artifactId>
-    <version>1.0.0</version>
+    <artifactId>eipai-codemo-server</artifactId>
+    <version>2.3.20190314</version>
     <packaging>jar</packaging>
 
     <name>eipai-codemo</name>
