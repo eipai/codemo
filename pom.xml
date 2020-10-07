@@ -3,7 +3,7 @@
 
     <groupId>com.github.eipai</groupId>
     <artifactId>eipai-codemo</artifactId>
-    <version>1.0.0</version>
+    <version>2.5.20201007</version>
     <packaging>jar</packaging>
 
     <name>eipai-codemo</name>
