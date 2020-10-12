@@ -1,0 +1,31 @@
+<?xml  version = "1.0"  encoding = "UTF-8" ?>
+<configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <property name="APP" value="eipai-client" />
+    </Properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+        </console>
+        <File name="log" fileName="log/${APP}.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+        </File>
+        <RollingFile name="RollingFile" fileName="${sys:user.home}/logs/${APP}.log" filePattern="${sys:user.home}/logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1000 MB" />
+            </Policies>
+        </RollingFile>
+        <Async name="AsyncRollingFile">
+            <AppenderRef ref="RollingFile" />
+        </Async>
+    </appenders>
+    <loggers>
+        <root level="all">
+            <appender-ref ref="Console" />
+            <appender-ref ref="AsyncRollingFile" />
+        </root>
+    </loggers>
+</configuration>
+ 

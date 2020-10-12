@@ -3,3 +3,6 @@
 /.settings/
 /.classpath
 /.project
+.idea
+eipai-codemo.iml
+/.idea/
